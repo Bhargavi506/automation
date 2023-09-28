@@ -3,7 +3,24 @@ provider "aws" {
     #access_key =""
     #secret_key = ""
 }
+# create s3 bucket
+resource "aws_s3_bucket" "example_bucket" {
+  bucket = "terraform-bucket" # Replace with your desired bucket name
+  acl    = "public"               # You can configure the access control list (ACL) as needed
 
+  tags = {
+    Name        = "terrafor-bucket"
+  }
+}
+
+# giving backend state file management with s3
+terraform {
+  backend "s3" {
+    bucket= "terraform-bucket"
+    key = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
 # create custom VPC
 resource "aws_vpc" "core_vpc" {
   cidr_block = "190.1.0.0/16"
