@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "example_bucket" {
   acl    = "public"               # You can configure the access control list (ACL) as needed
 
   tags = {
-    Name        = "terrafor-bucket"
+    Name        = "terraform-bucket"
   }
 }
 
