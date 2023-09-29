@@ -4,7 +4,7 @@ provider "aws" {
     #secret_key = ""
 }
 # create s3 bucket
-resource "aws_s3_bucket" "terraform-backend-s3-bucket-12345" {
+resource "aws_s3_bucket" "mybucket" {
   bucket = "terraform-backend-s3-bucket-12345" # Replace with your desired bucket name
   acl    = "private"               # You can configure the access control list (ACL) as needed
 
@@ -20,9 +20,6 @@ resource "aws_s3_bucket" "terraform-backend-s3-bucket-12345" {
         sse_algorithm= "AES256"
       }
     }
-  }
-  tags = {
-    Name        = "terraform-backend-s3-bucket-12345"
   }
 }
 
