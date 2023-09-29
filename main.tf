@@ -4,7 +4,7 @@ provider "aws" {
     #secret_key = ""
 }
 # create s3 bucket
-resource "aws_s3_bucket" "example_bucket" {
+resource "aws_s3_bucket" "terraform-bucket" {
   bucket = "terraform-bucket" # Replace with your desired bucket name
   acl    = "public"               # You can configure the access control list (ACL) as needed
 
