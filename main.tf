@@ -5,18 +5,18 @@ provider "aws" {
 }
 # create s3 bucket
 resource "aws_s3_bucket" "terraform-bucket" {
-  bucket = "terraform-bucket" # Replace with your desired bucket name
+  bucket = "terraform-backend-s3-bucket-12345" # Replace with your desired bucket name
   acl    = "public"               # You can configure the access control list (ACL) as needed
 
   tags = {
-    Name        = "terraform-bucket"
+    Name        = "terraform-backend-s3-bucket-12345"
   }
 }
 
 # giving backend state file management with s3
 terraform {
   backend "s3" {
-    bucket= "terraform-bucket"
+    bucket= "terraform-backend-s3-bucket-12345"
     key = "terraform.tfstate"
     region = "us-east-1"
   }
