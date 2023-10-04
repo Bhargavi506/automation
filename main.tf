@@ -6,7 +6,7 @@ provider "aws" {
 # create s3 bucket
 resource "aws_s3_bucket" "terraform_state_s3" {
   #make sure you give unique bucket name
-  bucket = "terraform-state-s3" 
+  bucket = "terraform-state-s3-111" 
   force_destroy = true
 # Enable versioning to see full revision history of our state files
   versioning {
@@ -37,7 +37,7 @@ resource "aws_dynamodb_table" "terraform_locks" {
 terraform {
   backend "s3" {
     #Replace this with your bucket name!
-    bucket         = "terraform-state-s3"
+    bucket         = "terraform-state-s3-111"
     key            = "dc/s3/terraform.tfstate"
     region         = "us-east-1"
     #Replace this with your DynamoDB table name!
