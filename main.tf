@@ -2,34 +2,49 @@ provider "aws" {
     region = "us-east-1"
     #access_key =""
     #secret_key = ""
+    #profile = "my-profile"
 }
 # create s3 bucket
-resource "aws_s3_bucket" "mybucket" {
-  bucket = "terraform-backend-s3-bucket-1234567" # Replace with your desired bucket name
-  acl    = "private"               # You can configure the access control list (ACL) as needed
-
-  lifecycle {
-    prevent_destroy =true  # if anyone try to delete means it gives error.
-  }
+resource "aws_s3_bucket" "terraform_state_s3" {
+  #make sure you give unique bucket name
+  bucket = "terraform-state-s3" 
+  force_destroy = true
+# Enable versioning to see full revision history of our state files
   versioning {
-    enabled = true
-  }
-  server_side_encryption_configuration {
+         enabled = true
+        }
+
+# Enable server-side encryption by default
+server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm= "AES256"
+        sse_algorithm = "AES256"
       }
     }
   }
 }
 
+# 2 - this Creates Dynamo Table
+resource "aws_dynamodb_table" "terraform_locks" {
+  name         = "tf-locks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+        attribute {
+         name = "LockID"
+         type = "S"
+      }
+}
 # giving backend state file management with s3
 terraform {
   backend "s3" {
-    bucket= "terraform-backend-s3-bucket-1234567"
-    key = "key/terraform.tfstate"
-    region = "us-east-1"
-  }
+    #Replace this with your bucket name!
+    bucket         = "terraform-state-s3"
+    key            = "dc/s3/terraform.tfstate"
+    region         = "us-east-1"
+    #Replace this with your DynamoDB table name!
+    dynamodb_table = "tf-locks"
+    encrypt        = true
+    }
 }
 # create custom VPC
 resource "aws_vpc" "core_vpc" {
