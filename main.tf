@@ -4,18 +4,6 @@ provider "aws" {
     
 }
 
-# giving backend state file management with s3
-terraform {
-  backend "s3" {
-    #Replace this with your bucket name!
-    bucket         = "terraform-state-s3-111"
-    key            = "dc/s3/terraform.tfstate"
-    region         = "us-east-1"
-    #Replace this with your DynamoDB table name!
-    dynamodb_table = "tf-locks"
-    encrypt        = true
-    }
-}
 # create custom VPC
 resource "aws_vpc" "core_vpc" {
   cidr_block = "190.1.0.0/16"
